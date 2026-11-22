@@ -47,3 +47,7 @@ Requirements: `python-pptx` (required), `Pillow` (optional), and the system tool
 Special thanks to **HXY** for their contribution and support.
 
 Thanks also to the open-source project [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) (source of the motion spec) and to the `grill-me` interrogation protocol.
+
+## Rights
+
+The de-ai-pptx specification, the visual reconstruction workflow, and the integrated `SKILL.md` are the author's own original work. The motion spec is adapted from frontend-slides under the MIT License (full text in `licenses/`). See [`NOTICE.md`](NOTICE.md) for the full attribution.

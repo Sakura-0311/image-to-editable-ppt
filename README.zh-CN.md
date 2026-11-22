@@ -45,3 +45,7 @@ image-to-editable-ppt/
 特别鸣谢 **HXY** 对本技能的贡献与支持。
 
 同时感谢开源项目 [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)（动效规范来源）与 `grill-me` 拷问协议。
+
+## 权属
+
+de-ai-pptx 规范、视觉重建流程与整合后的 `SKILL.md` 为作者原创；动效规范改编自 frontend-slides（MIT 许可，全文见 `licenses/`）。完整署名见 [`NOTICE.md`](NOTICE.md)。
