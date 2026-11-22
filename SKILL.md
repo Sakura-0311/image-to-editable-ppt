@@ -31,6 +31,20 @@ Never lock an entire deck into a single font family, and never confine choices s
 2. **典雅杂志 / 人文叙事风 (Elegant / Editorial)**: Titles in `思源宋体` / `方正书宋` / `Playfair Display`; verbatim quotes or policy excerpts in `楷体` / `仿宋`; page tags/metadata in `Consolas`; body in `冬青黑体` / `思源黑体`.
 3. **瑞士极简 / 硬核数据风 (Swiss / Data-Driven)**: Bold headers in `方正兰亭粗黑` / `思源黑体 Bold`; oversized KPIs & axis labels in `DIN` / `JetBrains Mono` (numbers/Latin only); captions in light sans; body in `苹方` / `微软雅黑`.
 4. **商务稳重 / 政企汇报风 (Executive / Formal)**: Titles in `华文中宋` / `方正小标宋`; numeric highlights in `Bahnschrift` / `Cambria`; policy citations in `仿宋`; body in `微软雅黑` / `苹方`.
+
+### English / Latin Font Pairing Extension (International Decks)
+
+For English-only or English-primary decks, apply the **same discipline** as the CJK pairings above: style is confirmed in `grill-me` first, then each slide combines **2-3 Latin families by role** (display / body / numerals-or-meta), **3-4 families across the whole deck**, one family per role deck-wide. Never set an entire English deck in a single default sans, and never use `Arial`, `Inter`, `Roboto`, or `Helvetica` defaults (banned as overused in `references/de-ai-pptx-v3.1.md`).
+
+1. **Ornate / Launch**: Hero titles in `Cinzel` / `Playfair Display` / `Bebas Neue` (condensed poster headlines); pull-quotes & accents in `Playfair Display Italic` / `Libre Baskerville Italic`; KPI numerals in `Oswald` / `Archivo` / `Bahnschrift`; body in `Source Sans 3` / `Lato` / `Work Sans`.
+2. **Elegant / Editorial**: Titles in `Playfair Display` / `Libre Baskerville` / `Lora`; verbatim quotes in `EB Garamond Italic` / `Lora Italic`; page tags & metadata in `IBM Plex Mono` / `Space Mono`; body in `Source Serif 4` / `Lora`, captions in `Source Sans 3`.
+3. **Swiss / Data-Driven**: Bold headers in `Archivo` (incl. Expanded weights) / `Libre Franklin` / `Space Grotesk`; oversized KPIs & axis labels in `IBM Plex Mono` / `JetBrains Mono` with tabular figures; captions in light-weight `Archivo` / `Libre Franklin`; body in `Archivo` / `Public Sans`.
+4. **Executive / Formal**: Titles in `Libre Baskerville` / `Source Serif 4` / `Spectral`; numeric highlights in `Cambria` / `Source Serif 4`; citations & footnotes in `EB Garamond Italic`; body in `Source Sans 3` / `Public Sans` / `Lato`.
+
+**Availability tiers (check before committing a deck):**
+- **Tier A — preinstalled, safe on unknown machines**: `Georgia` (elegant serif, Win+Mac), `Garamond` / `Palatino Linotype` / `Book Antiqua` (formal serif), `Cambria` / `Constantia` (Office serif), `Century Gothic` (geometric display). Prefer Tier A when the deck will be presented from someone else's computer.
+- **Tier B — free Google Fonts** (all families named above not in Tier A): use freely, but a `.pptx` does not reliably carry fonts with it — if the deck leaves the authoring machine, either embed the fonts on export or fall back to the Tier A partner for that role.
+- **Mixed CJK + Latin decks**: write the Latin slot with the English family and the East Asian slot with its CJK partner from the pairings above (e.g. Latin `Playfair Display` + EA `思源宋体`; Latin `Archivo` + EA `思源黑体`; Latin `IBM Plex Mono` for numerals in both). Never let Latin text fall back to a CJK font's built-in Latin glyphs, and never let CJK fall into a Latin-only font.
  
 ## Anti-AI-Slop Hard Bans & Plain-Copy Rules (All Routes, Including Route 3)
  
