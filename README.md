@@ -1,45 +1,49 @@
 # image-to-editable-ppt
 
-把图片 / PDF / 扁平幻灯片重建成**可编辑的现代 `.pptx`**，同时给已有演示文稿做「去 AI 味」改造的离线技能包。
+**English** | [简体中文](README.zh-CN.md)
 
-整合三部分规范：
+An offline skill pack that rebuilds images / PDFs / flattened slides into **editable, modern `.pptx`** files — and de-AIs existing decks so they read like human work.
 
-- **de-ai-pptx v3.1**：合规闸门 → 取证打分（五层指纹）→ `grill-me` 拷问对齐 → 五层改造 → 验收复扫；另含从零生成模式、三套离线视觉配方与提示词模板库
-- **frontend-slides 动效规范**：动效询问模板、情绪-动效匹配表、单文件 HTML 网页幻灯片选项
-- **视觉逆向重建**：页面归一化 → 分层解析 → 资产剥离清理 → `python-pptx` 原生重建 → 渲染质检
+It combines three specifications:
 
-## 触发词
+- **de-ai-pptx v3.1** — compliance gate → forensic scoring (five-layer fingerprint) → `grill-me` alignment interrogation → five-layer refactoring → acceptance re-scan; plus author-from-scratch mode, three offline visual recipes, and a prompt template library
+- **frontend-slides motion spec** — motion-preference question template, effect-to-feeling guide, and a single-file HTML web-deck option
+- **Visual reconstruction** — page normalization → layered extraction → asset stripping & cleanup → native `python-pptx` rebuild → render QA
+
+## Trigger phrase
 
 > **为我使用ppt-xy**
 
-说出这句即自动触发本技能。触发后首轮先执行 `grill-me` 提问对齐（包含视觉风格、是否需要动态效果及页码范围），对齐后才动手；交付强制为最新现代 `.pptx`（OOXML），不降级为老旧 `.ppt`，不把整页压成图片。
+Say this phrase to activate the skill automatically. On the first turn it runs a `grill-me` alignment round first (visual style, whether motion effects are wanted and on which pages) before touching any file. Delivery is always a modern `.pptx` (OOXML) — never downgraded to legacy `.ppt`, never flattened into full-page images.
 
-## 文件结构
+## File structure
 
 ```
 image-to-editable-ppt/
-├── SKILL.md                                  # 主入口：输出格式、逐页定制设计、字体配对、硬禁令、任务路由
+├── SKILL.md                                  # Entry point: output format, page-by-page bespoke design, font pairing, hard bans, task routing
+├── README.md                                 # English (default)
+├── README.zh-CN.md                           # 简体中文
 └── references/
-    ├── de-ai-pptx-v3.1.md                    # 去 AI 味完整规范（15 章）
-    ├── frontend-slides-motion.md             # 动效与 HTML 网页幻灯片扩展
-    └── visual-reconstruction.md              # 视觉逆向重建（Route 4）
+    ├── de-ai-pptx-v3.1.md                    # Full de-AI specification (15 chapters, in Chinese)
+    ├── frontend-slides-motion.md             # Motion & HTML web-deck extension (in Chinese)
+    └── visual-reconstruction.md              # Visual-to-editable reconstruction, Route 4 (in Chinese)
 ```
 
-## 四条路线
+## Four routes
 
-1. **改造**：已有 `.pptx` 去 AI 味，五阶段流水线走完交付改造版
-2. **体检**：只取证打分，输出双评分报告，不改文件
-3. **生成**：从主题/文档从零做一份不像 AI 的 PPT
-4. **视觉重建**：截图、图片、PDF、图片版 PPT 转可编辑 `.pptx`
+1. **Refactor** — remove the AI feel from an existing `.pptx` through the five-phase pipeline
+2. **Audit only** — forensic scoring and a dual-score report, no file changes
+3. **Author from scratch** — build a deck from a topic or document that does not look AI-made
+4. **Visual reconstruction** — convert screenshots, images, PDFs, or image-only decks into editable `.pptx`
 
-## 使用
+## Usage
 
-把本仓库放进你的 AI 助手技能目录（如 `skills/image-to-editable-ppt/`），或把 `SKILL.md` 与 `references/` 一起交给助手读取，然后说触发词「为我使用ppt-xy」即可。
+Place this repository in your AI assistant's skills directory (e.g. `skills/image-to-editable-ppt/`), or hand `SKILL.md` together with `references/` to your assistant, then say the trigger phrase “为我使用ppt-xy”.
 
-依赖：`python-pptx`（必需）、`Pillow`（可选），以及系统工具 `soffice`、`pdftoppm` 用于渲染质检。全程离线，无需联网下载模板或脚本。
+Requirements: `python-pptx` (required), `Pillow` (optional), and the system tools `soffice` and `pdftoppm` for render QA. Fully offline — no templates or scripts are downloaded at runtime.
 
-## 鸣谢
+## Acknowledgements
 
-特别鸣谢 **HXY** 对本技能的贡献与支持。
+Special thanks to **HXY** for their contribution and support.
 
-同时感谢开源项目 [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)（动效规范来源）与 `grill-me` 拷问协议。
+Thanks also to the open-source project [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides) (source of the motion spec) and to the `grill-me` interrogation protocol.
