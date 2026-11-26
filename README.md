@@ -9,6 +9,7 @@ It combines three specifications:
 - **de-ai-pptx v3.1** — compliance gate → forensic scoring (five-layer fingerprint) → `grill-me` alignment interrogation → five-layer refactoring → acceptance re-scan; plus author-from-scratch mode, three offline visual recipes, and a prompt template library
 - **frontend-slides motion spec** — motion-preference question template, effect-to-feeling guide, and a single-file HTML web-deck option
 - **Visual reconstruction** — page normalization → layered extraction → asset stripping & cleanup → native `python-pptx` rebuild → render QA
+- **Bundled tools** (`tools/`, Python stdlib + `lxml` only, fully offline) — `hygiene.py` automates post-processing: XML/app.xml sync, three-slot font repair, and human-plausible `created`/`modified` timestamps with matching `TotalTime` and revision; `audit.py` is the read-only delivery gate (BLOCK/WARN findings, exit code 1 = do not deliver). **Running the tools requires an agent environment with code execution**; in chat-only environments, apply the same rules manually from `SKILL.md`.
 
 ## Trigger phrase
 
@@ -23,6 +24,9 @@ image-to-editable-ppt/
 ├── SKILL.md                                  # Entry point: output format, page-by-page bespoke design, font pairing, hard bans, task routing
 ├── README.md                                 # English (default)
 ├── README.zh-CN.md                           # 简体中文
+├── tools/
+│   ├── hygiene.py                            # Post-processing: metadata/font-slot/timestamp hygiene
+│   └── audit.py                              # Read-only delivery audit (BLOCK/WARN gate)
 └── references/
     ├── de-ai-pptx-v3.1.md                    # Full de-AI specification (15 chapters, in Chinese)
     ├── frontend-slides-motion.md             # Motion & HTML web-deck extension (in Chinese)

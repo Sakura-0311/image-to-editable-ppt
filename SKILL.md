@@ -82,6 +82,7 @@ For English-only or English-primary decks, apply the **same discipline** as the 
      - `revision`: scale with the span (about 1 save per 15–25 minutes of span, at least 3).
      - `TotalTime` in `docProps/app.xml` (minutes): a believable fraction of the created→modified span (about 40–70% — humans pause), never 0 and never equal to the full span.
      - Keep `created < modified` strictly, and keep both consistent with any dates stated inside the deck.
+   - **Bundled Tools (Mandatory)**: This whole section is automated by the bundled scripts — after building any deck, run `python tools/hygiene.py <in.pptx> --out <out.pptx> --author <confirmed author> --title <title>` (performs the XML/app.xml/font-slot/timestamp hygiene above), then gate delivery with `python tools/audit.py <out.pptx>`; **exit code 1 from audit means do not deliver** until the BLOCK findings are fixed. The scripts ship in the skill's `tools/` folder and run fully offline.
 4. **Vary Source Citations & Natural Speaker Notes (NO Meta-Coaching Templates)**:
    - Never repeat an identical source line at the bottom of every slide; consolidate full citations on a dedicated Data & Sources slide or vary inline/footnote mentions.
    - **Ban stage-direction speaker notes**: Never write every slide's note as coaching instructions (`"这一页不需要念完每个神的名字，可以顺着视觉重点点出..."`) or `"第 N 页..."` templates. Write natural, uneven spoken cues (mix short 15-30 char reminders, factual bullets, and occasional 80-120 char talking notes; some simple visual slides can have brief or minimal notes).
@@ -113,5 +114,5 @@ For English-only or English-primary decks, apply the **same discipline** as the 
  
 ## Sandbox Constraints
  
-- Never run `pip install`, `npm install`, `curl`, or `git clone` in the sandbox; rely strictly on pre-installed Python (`python-pptx`, `Pillow`, `lxml`) and system tools (`soffice`, `pdftoppm`).
+- Never run `pip install`, `npm install`, `curl`, or `git clone` in the sandbox; rely strictly on pre-installed Python (`python-pptx`, `Pillow`, `lxml`) and system tools (`soffice`, `pdftoppm`). The bundled `tools/hygiene.py` and `tools/audit.py` need only the standard library + `lxml` and run offline.
 - Always convert finished decks to PDF (`soffice --headless --convert-to pdf`) and PNGs (`pdftoppm -png -r 150`) to visually inspect every slide before delivery.
