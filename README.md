@@ -2,7 +2,15 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
+> **PowerPoint that reads like a human made it.**
+
 An offline skill pack that rebuilds images / PDFs / flattened slides into **editable, modern `.pptx`** files — and de-AIs existing decks so they read like human work.
+
+## Watch the demo (77 seconds)
+
+[![Watch the demo video](assets/demo-video.jpg)](https://drive.google.com/file/d/1CatZZltrUNEKPM-Qyysx_8XpxfXNv8PG/view)
+
+The three AI giveaways, the rebuild into native editable objects, the five human touches — and the file-history check nobody else does. Also available on [Agensi](https://www.agensi.io/skills/image-to-editable-ppt).
 
 It combines three specifications:
 

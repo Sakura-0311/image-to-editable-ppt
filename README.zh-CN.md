@@ -2,7 +2,15 @@
 
 [English](README.md) | **简体中文**
 
+> **做出来像真人做的 PowerPoint。**
+
 把图片 / PDF / 扁平幻灯片重建成**可编辑的现代 `.pptx`**，同时给已有演示文稿做「去 AI 味」改造的离线技能包。
+
+## 演示视频（77 秒）
+
+[![观看演示视频](assets/demo-video.jpg)](https://drive.google.com/file/d/1CatZZltrUNEKPM-Qyysx_8XpxfXNv8PG/view)
+
+三处 AI 破绽、重建成原生可编辑对象、五个人味细节，还有别家不查的文件历史。付费版在 [Agensi](https://www.agensi.io/skills/image-to-editable-ppt)。
 
 整合三部分规范：
 
