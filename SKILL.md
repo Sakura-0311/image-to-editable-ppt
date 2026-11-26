@@ -111,3 +111,4 @@ For English-only or English-primary decks, apply the **same discipline** as the 
 ## Sandbox Constraints
  
 - Never run `pip install`, `npm install`, `curl`, or `git clone` in the sandbox; rely strictly on pre-installed Python (`python-pptx`, `Pillow`, `lxml`) and system tools (`soffice`, `pdftoppm`).
+- Always convert finished decks to PDF (`soffice --headless --convert-to pdf`) and PNGs (`pdftoppm -png -r 150`) to visually inspect every slide before delivery.
