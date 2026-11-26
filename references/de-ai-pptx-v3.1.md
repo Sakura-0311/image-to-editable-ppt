@@ -12,7 +12,7 @@ de-ai-pptx skill v3.1｜离线自包含版本 · 含 grill-me 拷问协议｜取
  
 | 技能名 | de-ai-pptx（目录建议 .skills/de-ai-pptx/，单文件亦可运行） |
  
-| 触发语 | 为我使用ppt-xy |
+| 触发语 | 降低 AI 味、去掉 AI 痕迹、看起来像 AI 做的、这个 PPT 是不是 AI 生成的、humanize、优化 PPT 观感 |
  
 | 适用输入 | 已有 .pptx 文件（改造模式）；主题或文档（生成模式） |
  
