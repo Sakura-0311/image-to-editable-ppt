@@ -8,7 +8,7 @@ An offline skill pack that rebuilds images / PDFs / flattened slides into **edit
 
 ## Watch the demo (77 seconds)
 
-[![Watch the demo video](assets/demo-video.jpg)](https://drive.google.com/file/d/1CatZZltrUNEKPM-Qyysx_8XpxfXNv8PG/view)
+[![Watch the demo video](assets/demo-video-en.jpg)](https://drive.google.com/file/d/1Lg6DDoqF9VS-tfutTxHaW-3dcL_llQWm/view)
 
 The three AI giveaways, the rebuild into native editable objects, the five human touches — and the file-history check nobody else does. Also available on [Agensi](https://www.agensi.io/skills/image-to-editable-ppt).
 
