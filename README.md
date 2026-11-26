@@ -21,9 +21,9 @@ It combines three specifications:
 
 ## Trigger phrase
 
-> **为我使用ppt-xy**
+> **为我使用ppt-xy** · **use ppt-xy for me**
 
-Say this phrase to activate the skill automatically. On the first turn it runs a `grill-me` alignment round first (visual style, whether motion effects are wanted and on which pages) before touching any file. Delivery is always a modern `.pptx` (OOXML) — never downgraded to legacy `.ppt`, never flattened into full-page images.
+Say either phrase (Chinese or English) to activate the skill automatically. On the first turn it runs a `grill-me` alignment round first (visual style, whether motion effects are wanted and on which pages) before touching any file. Delivery is always a modern `.pptx` (OOXML) — never downgraded to legacy `.ppt`, never flattened into full-page images.
 
 ## File structure
 

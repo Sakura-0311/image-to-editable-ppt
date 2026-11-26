@@ -1,6 +1,6 @@
 ---
 name: image-to-editable-ppt
-description: Offline self-contained presentation skill combining the full verbatim de-ai-pptx v3.1 specification (audit, grill-me interrogation, 5-layer de-AI refactoring, native generation with 3 visual recipes), frontend-slides & ppt-effects native .pptx Morph/XML motion patterns, style-driven intra-page CJK/Latin font pairing, page-by-page bespoke design (no template loops), and object-level visual slide reconstruction into modern editable .pptx. Trigger automatically whenever the user says "为我使用ppt-xy".
+description: Offline self-contained presentation skill combining the full verbatim de-ai-pptx v3.1 specification (audit, grill-me interrogation, 5-layer de-AI refactoring, native generation with 3 visual recipes), frontend-slides & ppt-effects native .pptx Morph/XML motion patterns, style-driven intra-page CJK/Latin font pairing, page-by-page bespoke design (no template loops), and object-level visual slide reconstruction into modern editable .pptx. Trigger automatically whenever the user says "为我使用ppt-xy" or "use ppt-xy for me".
 ---
  
 # image-to-editable-ppt
