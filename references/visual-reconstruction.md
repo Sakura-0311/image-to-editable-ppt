@@ -26,4 +26,3 @@
 ## 4. 原生重建、渲染质检与现代 `.pptx` 交付
  
 - 使用 `python-pptx` 将归一化坐标映射为英寸：用 `add_textbox`（`word_wrap = True`，中文字体优先微软雅黑或思源黑体、三槽字体同写、固定缩放 `92%`）、`add_shape`、`add_table` 和 `add_picture` 重建每一页，并写回原有演讲备注。
-- 重建后执行渲染质检：用 `soffice --headless --convert-to pdf` 转 PDF 再用 `pdftoppm -png -r 150` 渲染 PNG，与源图并排对比溢出、缺字、错位与可编辑性，修正至通过后直接交付现代 `.pptx` 文件。

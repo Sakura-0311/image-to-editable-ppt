@@ -10,7 +10,7 @@ Unified offline presentation skill combining the **complete, verbatim `de-ai-ppt
 ## Mandatory Output Format: Latest Modern `.pptx` (OOXML, NEVER Legacy `.ppt`)
  
 - **Always deliver a modern, latest-version `.pptx` (Office Open XML) file** so all native charts, embedded workbooks, 3-slot typography, theme XML, Morph transitions, and layouts remain 100% intact and editable in modern PowerPoint / WPS.
-- **NEVER convert output to legacy 97-2003 OLE2 `.ppt`**, which strips embedded chart workbooks, injects `___PPT10` template artifacts and fake `2013` OLE timestamps, and shatters hyperlinks into per-character runs. (Only output HTML if the user explicitly asks for a `frontend-slides` web deck.)
+- **NEVER convert output to legacy 97-2003 OLE2 `.ppt`**, which strips embedded chart workbooks, injects `___PPT10` template artifacts, and shatters hyperlinks into per-character runs. (Only output HTML if the user explicitly asks for a `frontend-slides` web deck.)
 - Never flatten slides into full-page images.
  
 ## Page-by-Page Bespoke Design (NO Batch Template-Loop Scripts or Fixed Nav Templates)
@@ -20,13 +20,21 @@ Never write a single monolithic `for slide_spec in slides: draw_template_slide(.
 1. **Page Field Over Card-per-Unit**: Avoid boxing every point into a bordered rectangle card. Use a **Page Field** (one large surface, open outline, asymmetric split, or off-canvas bleed shape) to organize zones naturally instead of stacking uniform cards.
 2. **Geometry Signature Check (Anti-Collision)**: Before designing Slide `N+1`, record and compare its Geometry Signature (`page job -> composition move -> contour/edge language`) against the previous 2 slides; if it matches, switch to a different spatial composition.
 3. **Topology-Driven Geometry**: Decide `topology=yes/no` per slide based on whether the content has real relationships (sequence, causality, hierarchy, contrast, or overlap). Draw connectors, arrows, or nested containers only when `topology=yes`; keep `topology=no` slides clean and unadorned.
-4. **Expanded Visual Expression Range, Shape-Fill Framing & Material Gate**:
-   - Go beyond plain rectangles using full-bleed image fields, editorial crops, scrim/spotlight overlays, freeform contours, and a subtle cross-page motif varied by page role.
-   - Prefer **native shape-fill image framing** (`p:sp` + `prstGeom`/`custGeom` + `blipFill`) over pre-cropped static PNGs; enforce the `custGeom` 3-point check, z-order (`base card -> local scrim/mask -> text -> standalone framed image`), and brightness gate (`<140` warning on light-bg/dark-text slides) per `references/frontend-slides-motion.md`.
-   - Fix defects at the owning layer (page-local fix for layout issues, outline fix for structure) without silently downgrading required assets.
-5. **Density-Driven Font Floor & Incremental Inspection (2-3 Slides per Batch)**:
+4. **Real Slide Layouts & Natural Shape Naming (NO Script IDs)**:
+   - Use real PowerPoint layouts (`Title Slide`, `Title and Content`, `Two Content`, `Section Header`, etc., with native placeholders where appropriate) rather than placing every slide on `Blank` with raw `TextBox 1, 2, 3`.
+   - **Ban developer/script shape names**: Never name shapes with snake_case or `!!` prefixes (e.g., `!!hero_jar`, `!!gold_rule`, `card_01`); keep natural PowerPoint shape names.
+5. **Visual Asset Sourcing, Zero-Defect AI Image QA & Editorial Craft**:
+   - **Real Media First**: For historical, archaeological, fine-art, scientific, or factual slides, prioritize **real museum/archival photos, real web screenshots, clean data charts, or pure typography/whitespace**. Never populate a deck with 4-6 AI illustrations sharing the same prompt style (cap decorative AI art at 1-2 intentional visuals max).
+   - **Mandatory 7-Point Visual Defect QA on Every Generated Image**: Whenever image generation is used, **inspect every generated image closely via `view_file` before placing it on a slide**. Reject and regenerate (or replace with a real photo/clean typography) if ANY flaw exists:
+     - **Anatomy/hands** (extra/fused fingers, missing joints, blurry ear-hair junctions);
+     - **Geometry/closure** (floating handles, double rims, mismatched lids, missing jar bases or floating tables);
+     - **Physics/lighting** (shadow contradicting light source, light leaking through opaque ceramic/stone walls, static curly smoke);
+     - **Period/pattern accuracy** (broken geometric patterns, anachronistic Baroque ornament on ancient artifacts, wrong botanical/historical objects);
+     - **Copy-paste artifacts** (cloned flames, tiled textures, melted reliefs).
+   - **Human Editorial Framing**: Never drop raw generator aspect ratios (`1376x768`, `896x1200`) unchanged onto slides. Apply deliberate editorial cropping via **native shape-fill framing** (`p:sp` + `prstGeom`/`custGeom` + `blipFill`), add grounded captions/annotations where helpful, and enforce the `custGeom` 3-point check, z-order, and brightness gate (`<140` warning on light-bg/dark-text slides) per `references/frontend-slides-motion.md`.
+6. **Density-Driven Font Floor & Incremental Inspection (2-3 Slides per Batch)**:
    - Cap typography at 4 disciplined size tiers and enforce the **density-split body floor**: **Speaking-led low-density `>= 20pt`** (if text overflows, cut words or expand the container — never shrink font size); **Reading-led high-density `14-16pt`** (never drop body below `14pt`; captions `10-11pt`, section `16-20pt`, page title `24-32pt`).
-   - Render each 2-3 slide batch via `soffice` + `pdftoppm` and visually inspect before proceeding. Always populate `author`, `last_modified_by`, and `title` consistently, set `created < modified`, and set `revision >= 2`.
+   - Render each 2-3 slide batch via `soffice` + `pdftoppm` and visually inspect every single slide before proceeding.
  
 ## Style-Driven & Intra-Page Font Pairing Module
  
@@ -55,25 +63,29 @@ For English-only or English-primary decks, apply the **same discipline** as the 
  
 ## Anti-AI-Slop Hard Bans & Plain-Copy Rules (All Routes, Including Route 3)
  
-1. **Plain Fact Titles, No Comma-Paired Antithesis & Zero Buzzwords**:
-   - **Ban "Clause A + comma + Clause B" symmetrical titles/subtitles** (e.g., 13+13 or 17+17 char balanced halves) and **"Data + Judgment + Metaphor" slogans**. Use single-sentence factual statements, questions, or natural spoken lines (`"AI岗位一年多了三成，但招人的不只是互联网"`, `"国考、国央企与基层岗位招录情况"`).
-   - **Blacklist AI & policy-jargon buzzwords**: Never use `锚点`, `压舱石`, `赋能`, `变现`, `闭环`, `卡位`, `打法`, `突围`, `红利`, `赛道`, `真金白银`, `双线并行`, `用脚投票`, `落地`, `下沉`, `分流`, `硬证据`, `领跑`, `退潮`, `精准`, `矩阵`, `工具箱`, `主战场`, `主通道`, `非共识`, `研判`, `霸榜`, `凸显`, `托底`, `攻坚`, `趋于理性`, `高质量发展`. Replace with plain wording (`重点`, `保底/退路`, `集中投递/补录`, `不再盲目跟风`, `能转正的实习`, `主要渠道`).
-   - **Concrete Rewrite Standard**:
-     - Bad (AI): `"应届生身份保护：2026国考13,822个职位限应届生，且年龄放宽至38周岁。选调生与省考：各省定向选调多在10-12月启动..."`
-     - Good (Human): `"应届身份真的很值钱——2026年国考1.38万个职位只招应届生，年龄还放宽到了38岁。但注意，这个身份基本上就用这一年。选调是另一条路..."`
+1. **Plain Fact Titles, No Rhetorical/Negation Clichés & Zero Buzzwords**:
+   - **Ban "Clause A + comma + Clause B" symmetrical titles**, **repeated rhetorical-question titles** (`"为什么...?"` / `"究竟是 A，还是 B?"`), and **"Data + Judgment + Metaphor" slogans**. Mix plain factual titles, dates/names, and concise noun phrases.
+   - **Ban `"不是 A，而是 B"` / `"它不是 X。它是 Y"` negation-pivot clichés** (especially in narrative/cultural decks) and **standalone em-dash + quoted aphorism lines** (`——“...”`) repeated across slides.
+   - **Blacklist AI & policy-jargon buzzwords**: Never use `锚点`, `压舱石`, `赋能`, `变现`, `闭环`, `卡位`, `打法`, `突围`, `红利`, `赛道`, `真金白银`, `双线并行`, `用脚投票`, `落地`, `下沉`, `分流`, `硬证据`, `领跑`, `退潮`, `精准`, `矩阵`, `工具箱`, `主战场`, `主通道`, `非共识`, `研判`, `霸榜`, `凸显`, `托底`, `攻坚`, `趋于理性`, `高质量发展`. Replace with plain wording.
    - **Ban 4-beat parallelism, empty divider pages, scare quotes & self-certifying claims**: Never build a divider slide out of 4-char parallelisms, never stack `靠A，靠B，靠C`, never put scare quotes around common terms (`"国家队"`, `"铁饭碗"`), and **never write `"编辑部核心研判"` or `"所有外部数据均已核验"`**.
 2. **Sentence Burstiness, Nuanced Judgment & Asymmetric Structure**:
-   - **Increase burstiness**: After every 2 long sentences, insert a short punchy sentence (<= 10 chars, e.g. `"竞争比98:1。什么概念？一个岗位近百人抢。"`). Vary paragraph openings across data-first, rhetorical questions, and concessions; add nuanced judgment/caveats (`"我倾向于理解为挤水分，而不是学历没用了"`) instead of robotic absolute conclusions.
+   - **Increase burstiness**: After every 2 long sentences, insert a short punchy sentence (<= 10 chars). Vary paragraph openings across data-first, narrative facts, and concessions; add nuanced judgment/caveats instead of robotic absolute conclusions.
    - **Break structural symmetry & drop half the closing takeaways**: Expand key slides and keep minor points brief; omit closing summary strips on at least half of the slides; ban `"三大xx / 四大xx"` grouping, all-caps English kickers (`SECTION 01 | ...`), and `｜`/`→`/`·`/`／` clustering. Vary layouts across 4-5 distinct structures (>= 2 real slide layouts; never > 30% identical coordinates).
-3. **Erase `python-pptx` XML & `app.xml` Fingerprints (Mandatory Post-Processing)**:
-   - Rewrite all `*.xml` and `*.rels` declarations inside the `.pptx` zip from single quotes (`'1.0'`) to **double quotes** (`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>`).
-   - Sync `docProps/app.xml`: set `Slides` to actual count, `Words` to actual word count, `PresentationFormat` to `"On-screen Show (16:9)"`, and realistic `TotalTime`.
-4. **Vary Source Citations & Speaker Notes (Never Uniform Templates)**:
+3. **Clean Document Properties & OOXML Hygiene (Mandatory Post-Processing)**:
+   - Keep `docProps/app.xml` and `docProps/core.xml` accurate and complete: sync `Slides` to actual slide count, `Words` to actual word count, `PresentationFormat` to `"On-screen Show (16:9)"`, and populate `author`, `last_modified_by`, and `title` consistently with user-confirmed values (never leave `"待填写"` or invented `"xx课题组"`).
+   - Format OOXML declarations cleanly with standard double quotes (`<?xml version="1.0" encoding="UTF-8" standalone="yes"?>`).
+   - **Human-Plausible Timestamps (Mandatory)**: Never ship a deck whose `docProps/core.xml` timestamps expose instant machine generation (`created` == `modified`, or a whole deck "made" in under a minute). Rewrite them to mimic a real human editing session:
+     - `created`: a plausible start within the 3 days before delivery, during waking hours (09:00–23:00 local time), with non-round minutes/seconds (never `00:00:00`, never the exact delivery minute).
+     - `modified`: `created` plus a realistic production span scaled to deck size — roughly **6–12 minutes per slide, minimum 40 minutes, maximum ~8 hours** (keep it same-day unless the deck is very large).
+     - `revision`: scale with the span (about 1 save per 15–25 minutes of span, at least 3).
+     - `TotalTime` in `docProps/app.xml` (minutes): a believable fraction of the created→modified span (about 40–70% — humans pause), never 0 and never equal to the full span.
+     - Keep `created < modified` strictly, and keep both consistent with any dates stated inside the deck.
+4. **Vary Source Citations & Natural Speaker Notes (NO Meta-Coaching Templates)**:
    - Never repeat an identical source line at the bottom of every slide; consolidate full citations on a dedicated Data & Sources slide or vary inline/footnote mentions.
-   - Write natural, uneven speaker notes (mix 15-30 char reminders with 80-120 char spoken cues; never start every note with `"第 N 页..."`).
-5. **Ban `main-title`, `___PPT10`, Negative Axes, Broken Hyperlinks & 0-Media Walls**:
-   - Set real chart titles or `has_title = False`, set `minimum_scale = 0` on non-negative axes, style hyperlinks in high-contrast dark colors, merge same-URL runs into **one single run** with clean source names matching the actual URL domain.
-   - Write all 3 font slots explicitly (`theme1.xml` updated), disable shrink-to-fit auto-scaling, use native bullets, and ask in `grill-me` for real screenshots/personal case details (1-2 specific examples or local context) so the deck has real human grounding.
+   - **Ban stage-direction speaker notes**: Never write every slide's note as coaching instructions (`"这一页不需要念完每个神的名字，可以顺着视觉重点点出..."`) or `"第 N 页..."` templates. Write natural, uneven spoken cues (mix short 15-30 char reminders, factual bullets, and occasional 80-120 char talking notes; some simple visual slides can have brief or minimal notes).
+5. **Final Proofread, Widow-Line & Collision Gate + Clean Charts/Links**:
+   - **Mandatory Text & Visual Final Check**: Before delivery, run a text pass to catch duplicated words (e.g., `原本根本`, `的的`) and inspect **every single rendered PNG** for text-on-text overlap, clipped boxes, and 1-3 character widow lines (e.g., a lone `"沉默。"` on a centered line). Fix and re-render until zero collisions or widows remain.
+   - Set real chart titles or `has_title = False`, set `minimum_scale = 0` on non-negative axes, style hyperlinks in high-contrast dark colors, merge same-URL runs into **one single run** matching the actual URL domain, update `theme1.xml`, disable shrink-to-fit auto-scaling, and use native bullets.
  
 ## Hard Gate: Alignment Before Output (`grill-me` Protocol + Style & Motion Gate)
  
@@ -82,7 +94,7 @@ For English-only or English-primary decks, apply the **same discipline** as the 
 1. Before writing any output file in **Route 1 (Refactor)**, **Route 3 (Author from Scratch)**, or **Route 4 (Visual Reconstruction)**, read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md` in full.
 2. Execute the **`grill-me` interrogation protocol** from Chapter 7 of `references/de-ai-pptx-v3.1.md` on Turn 1:
    - Never ask facts already present in the prompt or attached files (investigate/extract those yourself first).
-   - Group unblocked decisions into a frontier round: in **Route 1**, follow B01-B09; in **Route 3**, ask author/attribution, 7-Question Intake, density tier (Speaking `>= 20pt` vs. Reading `14-16pt`), real screenshots, and 1-2 specific personal/local examples using the exact `grill-me` format.
+   - Group unblocked decisions into a frontier round: in **Route 1**, follow B01-B09; in **Route 3**, ask author/attribution, 7-Question Intake, density tier (Speaking `>= 20pt` vs. Reading `14-16pt`), real screenshots/photos, and 1-2 specific personal/local examples using the exact `grill-me` format.
    - **Mandatory Style Question (Must Ask in `grill-me`)**: Explicitly ask which **PPT visual style** the user prefers (e.g., 华丽发布会风 / 典雅杂志风 / 瑞士极简风 / 商务稳重风), and explain that the chosen style will drive the multi-font pairing within each slide.
    - **Mandatory Motion Question (Must Ask in `grill-me`)**: Explicitly ask whether the user wants **dynamic motion/animation effects** (e.g., native `.pptx` **Morph 平滑切换** with fade fallback, in-slide **auto-chained `afterEffect` animations**, or `frontend-slides` animated HTML per `references/frontend-slides-motion.md`), and ask **which pages (selected key pages like cover/section/hero slides, OR all pages, OR none for now)**.
    - Format every question with: **Number + Title**, **Question** (phrased so "Yes" accepts the recommended answer), **Recommended Answer**, and **Rationale**, separated by dividers.
@@ -91,12 +103,11 @@ For English-only or English-primary decks, apply the **same discipline** as the 
  
 ## Task Routing
  
-1. **Route 1 - Refactor Existing Deck (改造)**: Read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md`. If input is legacy `.ppt`, convert to `.pptx` via `soffice --headless --convert-to pptx` first. Run Phase 0 Compliance Gate -> Phase 1 Forensics -> Phase 2 `grill-me` Interrogation (including Style & Motion Questions) -> Phase 3 Five-Layer Refactor -> Phase 4 Acceptance QA + XML/app.xml hygiene -> Deliver modern `.pptx`.
+1. **Route 1 - Refactor Existing Deck (改造)**: Read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md`. If input is legacy `.ppt`, convert to `.pptx` via `soffice --headless --convert-to pptx` first. Run Phase 0 Compliance Gate -> Phase 1 Forensics -> Phase 2 `grill-me` Interrogation (including Style & Motion Questions) -> Phase 3 Five-Layer Refactor -> Phase 4 Acceptance QA + OOXML/Metadata hygiene -> Deliver modern `.pptx`.
 2. **Route 2 - Audit Only (体检)**: Read `references/de-ai-pptx-v3.1.md` in full. Run Phase 0 + Phase 1 forensics and output the dual-score report without modifying the file.
-3. **Route 3 - Author from Scratch (生成)**: Read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md`. Run `grill-me` 7-Question Clarification (including Style, Motion, Density, Author, Media & Personal Context) -> 2-3 Cover Previews -> Narrative Outline -> Page-by-Page Bespoke Design & Style-Driven Font Pairing -> Optional Morph/XML Motion Injection -> Incremental Render QA & L0/L1/XML Hygiene -> Deliver modern `.pptx` (or single-file HTML if requested).
-4. **Route 4 - Visual-to-Editable Reconstruction (视觉逆向重建)**: Read `references/visual-reconstruction.md`, `references/de-ai-pptx-v3.1.md`, and `references/frontend-slides-motion.md`. Confirm key scope/style/font/note/motion preferences via `grill-me` if unstated, then run Page Normalization -> Parallel Layer Extraction -> Asset Cropping/Cleaning -> Page-by-Page Native `python-pptx` Rebuild -> XML Hygiene & Render QA -> Deliver modern `.pptx`.
+3. **Route 3 - Author from Scratch (生成)**: Read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md`. Run `grill-me` 7-Question Clarification (including Style, Motion, Density, Author, Media & Personal Context) -> 2-3 Cover Previews -> Narrative Outline -> Page-by-Page Bespoke Design & Style-Driven Font Pairing -> Image Defect QA & Optional Morph/XML Motion Injection -> Final Proofread, Widow/Collision Render QA & OOXML/Metadata Hygiene -> Deliver modern `.pptx` (or single-file HTML if requested).
+4. **Route 4 - Visual-to-Editable Reconstruction (视觉逆向重建)**: Read `references/visual-reconstruction.md`, `references/de-ai-pptx-v3.1.md`, and `references/frontend-slides-motion.md`. Confirm key scope/style/font/note/motion preferences via `grill-me` if unstated, then run Page Normalization -> Parallel Layer Extraction -> Asset Cropping/Cleaning -> Page-by-Page Native `python-pptx` Rebuild -> Final Proofread, OOXML/Metadata Hygiene & Render QA -> Deliver modern `.pptx`.
  
 ## Sandbox Constraints
  
 - Never run `pip install`, `npm install`, `curl`, or `git clone` in the sandbox; rely strictly on pre-installed Python (`python-pptx`, `Pillow`, `lxml`) and system tools (`soffice`, `pdftoppm`).
-- Always convert finished decks to PDF (`soffice --headless --convert-to pdf`) and PNGs (`pdftoppm -png -r 150`) to visually inspect every slide before delivery.
