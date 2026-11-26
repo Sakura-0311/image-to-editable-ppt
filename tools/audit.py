@@ -12,6 +12,7 @@ Exit codes:
 """
 
 import argparse
+from collections import Counter
 from datetime import datetime
 import json
 import os
@@ -168,12 +169,21 @@ def audit_pptx(path: str) -> tuple[int, dict]:
     fullpage_image_slides: list[str] = []
     bad_morph_slides: list[str] = []
     ppt10_hits = 0
+    transition_types: list[str] = []
+    timing_slides = 0
 
     for spath in slide_paths:
         raw = entries[spath]
         if b"___PPT10" in raw:
             ppt10_hits += 1
         root = etree.fromstring(raw)
+
+        # Motion scan: transition type + in-slide animation presence
+        trans_el = root.find(f"{{{P_NS}}}transition")
+        if trans_el is not None and len(trans_el) > 0:
+            transition_types.append(etree.QName(trans_el[0]).localname)
+        if root.find(f"{{{P_NS}}}timing") is not None:
+            timing_slides += 1
 
         # Check invalid Morph option="object"
         for m_el in root.iter(f"{{{P159_NS}}}morph"):
@@ -367,6 +377,13 @@ def audit_pptx(path: str) -> tuple[int, dict]:
         add("WARN", "naming", "SCRIPT_SHAPE_NAME", f"Developer-style shape names found: {', '.join(script_shape_names[:5])}")
     if fullpage_image_slides:
         add("WARN", "editability", "FULLPAGE_IMAGE_SLIDE", f"Slide(s) consisting of a single full-page picture with no editable text: {', '.join(fullpage_image_slides)}")
+    if len(transition_types) >= 4:
+        top_type, top_count = Counter(transition_types).most_common(1)[0]
+        if top_count / len(transition_types) >= 0.75:
+            add("WARN", "motion", "MOTION_MONOTONY",
+                f"{top_count}/{len(transition_types)} transitioned slides use a single transition type ({top_type}). "
+                "Known failure mode: defaulting to plain Morph/fade everywhere instead of the effect library. "
+                "Confirm a per-page Motion Plan with named library effects was followed, or diversify.")
 
     block_count = sum(1 for f in findings if f["severity"] == "BLOCK")
     warn_count = sum(1 for f in findings if f["severity"] == "WARN")
@@ -390,6 +407,11 @@ def audit_pptx(path: str) -> tuple[int, dict]:
             "revision": revision_val,
             "total_time": total_time,
             "unique_fonts": sorted(used_fonts),
+            "motion": {
+                "transitioned_slides": len(transition_types),
+                "transition_types": dict(Counter(transition_types)),
+                "slides_with_inslide_animation": timing_slides,
+            },
         },
         "findings": findings,
     }

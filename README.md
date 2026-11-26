@@ -17,7 +17,7 @@ It combines three specifications:
 - **de-ai-pptx v3.1** — compliance gate → forensic scoring (five-layer fingerprint) → `grill-me` alignment interrogation → five-layer refactoring → acceptance re-scan; plus author-from-scratch mode, three offline visual recipes, and a prompt template library
 - **frontend-slides motion spec** — motion-preference question template, effect-to-feeling guide, and a single-file HTML web-deck option
 - **Visual reconstruction** — page normalization → layered extraction → asset stripping & cleanup → native `python-pptx` rebuild → render QA
-- **Bundled tools** (`tools/`, Python stdlib + `lxml` only, fully offline) — `hygiene.py` automates post-processing: XML/app.xml sync, three-slot font repair, and human-plausible `created`/`modified` timestamps with matching `TotalTime` and revision; `audit.py` is the read-only delivery gate (BLOCK/WARN findings, exit code 1 = do not deliver). **Running the tools requires an agent environment with code execution**; in chat-only environments, apply the same rules manually from `SKILL.md`.
+- **Bundled tools** (`tools/`, Python stdlib + `lxml` only, fully offline) — `hygiene.py` automates post-processing: XML/app.xml sync, three-slot font repair, and human-plausible `created`/`modified` timestamps with matching `TotalTime` and revision; `audit.py` is the read-only delivery gate (BLOCK/WARN findings, exit code 1 = do not deliver) — it also scans slide transitions and warns on motion monotony (≥75% of transitioned slides sharing one type, the plain-Morph-everywhere failure mode). **Running the tools requires an agent environment with code execution**; in chat-only environments, apply the same rules manually from `SKILL.md`.
 
 ## Trigger phrase
 

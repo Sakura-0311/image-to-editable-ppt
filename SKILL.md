@@ -99,17 +99,37 @@ For English-only or English-primary decks, apply the **same discipline** as the 
    - Never ask facts already present in the prompt or attached files (investigate/extract those yourself first).
    - Group unblocked decisions into a frontier round: in **Route 1**, follow B01-B09; in **Route 3**, ask author/attribution, 7-Question Intake, density tier (Speaking `>= 20pt` vs. Reading `14-16pt`), real screenshots/photos, and 1-2 specific personal/local examples using the exact `grill-me` format.
    - **Mandatory Style Question (Must Ask in `grill-me`)**: Explicitly ask which **PPT visual style** the user prefers (e.g., 华丽发布会风 / 典雅杂志风 / 瑞士极简风 / 商务稳重风), and explain that the chosen style will drive the multi-font pairing within each slide.
-   - **Mandatory Motion Question (Must Ask in `grill-me`)**: Explicitly ask whether the user wants **dynamic motion/animation effects** (e.g., native `.pptx` **Morph 平滑切换** with fade fallback, in-slide **auto-chained `afterEffect` animations**, or `frontend-slides` animated HTML per `references/frontend-slides-motion.md`), and ask **which pages (selected key pages like cover/section/hero slides, OR all pages, OR none for now)**.
+   - **Mandatory Motion Question (Must Ask in `grill-me`)**: Explicitly ask whether the user wants **dynamic motion/animation effects**. Present the recommended option first: **library motion design** — named effects from the effect library in `references/frontend-slides-motion.md`, assigned per page by role under a written Motion Plan (see Motion Design section below). Alternatives: in-slide **auto-chained `afterEffect` animations**, or `frontend-slides` animated HTML. Do **not** present bare Morph 平滑切换 as the default option. Also ask **which pages (selected key pages like cover/section/hero slides, OR all pages, OR none for now)**.
    - **Image-Count Gate**: For image-driven layouts (photo albums, carousels, masked-image sequences), the **page count is derived from the image count**. Confirm whether all supplied images are used or only a subset, state the resulting page count before building, and if the image count falls below the layout's minimum, say plainly that it cannot be built as designed instead of padding or forcing it.
    - Format every question with: **Number + Title**, **Question** (phrased so "Yes" accepts the recommended answer), **Recommended Answer**, and **Rationale**, separated by dividers.
    - **Stop immediately after asking the round** and wait for the user's reply before building or modifying any slides.
 3. **Mandatory Post-Delivery Motion Note**: If the user chose **"不需要动态效果" (no animations for now)** during `grill-me`, **when delivering the final `.pptx` file, explicitly tell the user** that animations are currently omitted and that they can pick specific slide numbers (or all slides) and desired motion style (Morph transitions, in-slide auto-chained animations, or animated HTML) anytime to add dynamic effects.
  
+## Motion Design — The Library Is Mandatory, Plain Morph Is Not a Design
+
+**Known failure mode (field-reported):** agents skip the effect library and set plain **Morph 平滑切换** on every page. That is the motion equivalent of a template loop and is treated as a defect, not a style choice.
+
+Whenever the user chooses motion (any route):
+
+1. **Write a Motion Plan before building.** One row per motion page: page number → **named effect from the library** → key parameters copied from the tested recipes in `references/frontend-slides-motion.md` (durations, geometry, shadow values — never from memory). Show the plan in the delivery summary.
+2. **Assign effects by page role** (compact map; full recipes in the reference):
+
+   | Page role | Library effect |
+   | --- | --- |
+   | Cover / opening | 环形开场 (radial reveal) or 湖景斜切滑入 (angled slide-in) |
+   | Section divider / big statement | 模糊遮罩大字 (blurred-mask headline) or 玻璃碎片散开 (glass shards) |
+   | Contents / category overview | 扇形展开 (fan-out) |
+   | Gallery / portfolio sequence | 立体图片轮播 (3D carousel, pages = images + 1) |
+   | Ordinary content pages | Object-choreographed Morph per a recipe (matched objects, `byObject`), or in-slide `afterEffect` chains |
+
+3. **Anti-default quota:** a bare Morph/fade transition with **no object choreography** may cover **at most 1/3 of motion pages**, and **never** the cover or a section divider. Morph only counts as library use when it choreographs matched objects following a recipe.
+4. **Gate:** `tools/audit.py` reports `MOTION_MONOTONY` when ≥75% of transitioned slides share one transition type. Resolve it by diversifying per the Motion Plan, or state the justification explicitly in the delivery note — never ship it silently.
+
 ## Task Routing
  
 1. **Route 1 - Refactor Existing Deck (改造)**: Read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md`. If input is legacy `.ppt`, convert to `.pptx` via `soffice --headless --convert-to pptx` first. Run Phase 0 Compliance Gate -> Phase 1 Forensics -> Phase 2 `grill-me` Interrogation (including Style & Motion Questions) -> Phase 3 Five-Layer Refactor -> Phase 4 Acceptance QA + OOXML/Metadata hygiene -> Deliver modern `.pptx`.
 2. **Route 2 - Audit Only (体检)**: Read `references/de-ai-pptx-v3.1.md` in full. Run Phase 0 + Phase 1 forensics and output the dual-score report without modifying the file.
-3. **Route 3 - Author from Scratch (生成)**: Read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md`. Run `grill-me` 7-Question Clarification (including Style, Motion, Density, Author, Media & Personal Context) -> 2-3 Cover Previews -> Narrative Outline -> Page-by-Page Bespoke Design & Style-Driven Font Pairing -> Image Defect QA & Optional Morph/XML Motion Injection -> Final Proofread, Widow/Collision Render QA & OOXML/Metadata Hygiene -> Deliver modern `.pptx` (or single-file HTML if requested).
+3. **Route 3 - Author from Scratch (生成)**: Read `references/de-ai-pptx-v3.1.md` and `references/frontend-slides-motion.md`. Run `grill-me` 7-Question Clarification (including Style, Motion, Density, Author, Media & Personal Context) -> 2-3 Cover Previews -> Narrative Outline -> Page-by-Page Bespoke Design & Style-Driven Font Pairing -> Image Defect QA & Motion Plan Execution (named library effects, per the Motion Design section) -> Final Proofread, Widow/Collision Render QA & OOXML/Metadata Hygiene -> Deliver modern `.pptx` (or single-file HTML if requested).
 4. **Route 4 - Visual-to-Editable Reconstruction (视觉逆向重建)**: Read `references/visual-reconstruction.md`, `references/de-ai-pptx-v3.1.md`, and `references/frontend-slides-motion.md`. Confirm key scope/style/font/note/motion preferences via `grill-me` if unstated, then run Page Normalization -> Parallel Layer Extraction -> Asset Cropping/Cleaning -> Page-by-Page Native `python-pptx` Rebuild -> Final Proofread, OOXML/Metadata Hygiene & Render QA -> Deliver modern `.pptx`.
  
 ## Sandbox Constraints
