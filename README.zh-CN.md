@@ -12,6 +12,14 @@
 
 三处 AI 破绽、重建成原生可编辑对象、五个人味细节，还有别家不查的文件历史。付费版在 [Agensi](https://www.agensi.io/skills/image-to-editable-ppt)。
 
+## 作品展示
+
+![改造前：扁平 AI 风页面。改造后：人味原生重建](assets/before-after.png)
+
+上面这页重建稿，按 PPTX 的 XML 实际计数：**17 个原生形状对象 · 15 段可编辑文字 · 0 张图片 · 0 张整页贴图**。标题、线条、数字全是能点选编辑的 PowerPoint 对象。
+
+[下载这页样例 .pptx](showcase/sample-editable.pptx)，用 PowerPoint 打开随便点选，再看看它的文件属性——历史也像真人做的。工具与演示的验收记录在 [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md)。
+
 整合三部分规范：
 
 - **de-ai-pptx v3.1**：合规闸门 → 取证打分（五层指纹）→ `grill-me` 拷问对齐 → 五层改造 → 验收复扫；另含从零生成模式、三套离线视觉配方与提示词模板库

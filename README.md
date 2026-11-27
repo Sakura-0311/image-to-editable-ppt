@@ -12,6 +12,14 @@ An offline skill pack that rebuilds images / PDFs / flattened slides into **edit
 
 The three AI giveaways, the rebuild into native editable objects, the five human touches — and the file-history check nobody else does. Also available on [Agensi](https://www.agensi.io/skills/image-to-editable-ppt).
 
+## Showcase
+
+![Before: flat AI-look slide. After: human-style native rebuild](assets/before-after.png)
+
+The rebuilt page above, counted from its actual PPTX XML: **17 native shape objects · 15 editable text runs · 0 pictures · 0 full-page images**. Every headline, rule line and numeral is a real PowerPoint object you can click and edit.
+
+[Download this sample .pptx](showcase/sample-editable.pptx) and open it in PowerPoint — select anything. Then check its file properties: the history reads human too. Verification records for the bundled tools and this demo live in [docs/ACCEPTANCE.md](docs/ACCEPTANCE.md).
+
 It combines three specifications:
 
 - **de-ai-pptx v3.1** — compliance gate → forensic scoring (five-layer fingerprint) → `grill-me` alignment interrogation → five-layer refactoring → acceptance re-scan; plus author-from-scratch mode, three offline visual recipes, and a prompt template library
