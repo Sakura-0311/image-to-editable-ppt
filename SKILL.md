@@ -125,6 +125,7 @@ Whenever the user chooses motion (any route):
 
 3. **Anti-default quota:** a bare Morph/fade transition with **no object choreography** may cover **at most 1/3 of motion pages**, and **never** the cover or a section divider. Morph only counts as library use when it choreographs matched objects following a recipe.
 4. **Gate:** `tools/audit.py` reports `MOTION_MONOTONY` when ≥75% of transitioned slides share one transition type. Resolve it by diversifying per the Motion Plan, or state the justification explicitly in the delivery note — never ship it silently.
+5. **Font portability:** `tools/audit.py` reports `FONT_PORTABILITY` (WARN) for every font that is not preinstalled on typical Windows/macOS machines. Tier B (Google Fonts) decks will trigger it by design — when it fires, the delivery note MUST name the fonts and tell the recipient to install them before presenting, or offer a Tier A rebuild. Verified on real hardware: without its fonts, a deck was rendered entirely in a handwriting fallback while LibreOffice QA showed the intended design — never treat a LibreOffice render as proof of how the deck looks on the recipient's machine.
 
 ## Task Routing
  

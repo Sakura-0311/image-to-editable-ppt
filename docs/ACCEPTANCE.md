@@ -20,6 +20,15 @@ Method: transitions were injected into copies of a real 12-slide deck via slide-
 - 5 slides with mixed types (morph ×2, fade, push, wipe) → distribution reported, **no warning**.
 - Both files open and convert in LibreOffice without error.
 
+## 2026-11-29 — Font portability check (audit.py FONT_PORTABILITY) + real-machine render test
+
+Method: the showcase deck was opened on a real Windows machine via a COM bridge (harness-anything `cli-anything-wps`) and exported to PDF by the real application; a LibreOffice render of the same file served as the control.
+
+- Real-application render vs LibreOffice: layout skeleton identical (positions, rules, stat column), **but every glyph was substituted** — the deck's fonts (Playfair Display, Source Sans 3, IBM Plex Mono) are not installed on that machine, and the app fell back to a handwriting-style font for the whole page. The LibreOffice render had silently approximated the intended serif/sans/mono look, so LibreOffice-only QA could not see this failure.
+- New check: `audit.py` raises **WARN FONT_PORTABILITY** listing every used font that is not preinstalled on typical Windows/macOS machines, with delivery guidance (install the fonts on the target machine, or switch to Tier A preinstalled-safe fonts).
+- Verification: the showcase deck → WARN lists exactly `IBM Plex Mono, Playfair Display, Source Sans 3`. A copy of the same deck with fonts swapped to Georgia / Calibri / Consolas → no FONT_PORTABILITY finding.
+- Note: the two PDFs returned from the real-machine test (bridge export vs manual export) rendered pixel-identically, so they count as one application's evidence, not two independent ones.
+
 ## 2026-11-26 — Demo video
 
 - File: `image-to-editable-ppt-demo.mp4`, 77 seconds, 1920×1080, H.264/AAC, English narration and subtitles.

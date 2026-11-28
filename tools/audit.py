@@ -62,6 +62,55 @@ BAD_META_TOKENS = (
     "待填写", "待补", "课题组", "python-pptx", "unknown", "template", "placeholder",
 )
 
+# Fonts preinstalled on typical end-user machines (Windows + Office, macOS).
+# Anything used by a deck but NOT in this set will be silently substituted by
+# PowerPoint/WPS on machines that lack it — which can wreck the design
+# (real-machine test 2026-11-29: a Playfair Display / Source Sans 3 /
+# IBM Plex Mono deck rendered entirely in a handwriting fallback font).
+PREINSTALLED_SAFE_FONTS = {
+    # Latin — Windows / Office staples
+    "arial", "arial black", "arial narrow", "book antiqua", "calibri",
+    "cambria", "candara", "century gothic", "comic sans ms", "consolas",
+    "constantia", "corbel", "courier new", "franklin gothic medium",
+    "garamond", "georgia", "gill sans mt", "impact", "lucida console",
+    "lucida sans unicode", "microsoft sans serif", "palatino linotype",
+    "perpetua", "segoe print", "segoe script", "segoe ui", "tahoma",
+    "times new roman", "trebuchet ms", "tw cen mt", "verdana",
+    # Latin — macOS staples
+    "avenir", "avenir next", "helvetica", "helvetica neue", "menlo",
+    "monaco", "optima", "futura", "didot", "american typewriter",
+    # CJK — Windows
+    "microsoft yahei", "microsoft yahei ui", "微软雅黑", "simsun", "宋体",
+    "nsimsun", "新宋体", "simhei", "黑体", "kaiti", "楷体", "fangsong",
+    "仿宋", "dengxian", "等线", "microsoft jhenghei", "微軟正黑體",
+    "pmingliu", "新細明體", "mingliu", "細明體",
+    # CJK — macOS
+    "pingfang sc", "pingfang tc", "pingfang hk", "苹方", "hiragino sans",
+    "hiragino sans gb", "冬青黑体", "stsong", "华文宋体", "stheiti",
+    "华文黑体", "stkaiti", "华文楷体", "stfangsong", "华文仿宋",
+    "songti sc", "宋体-简",
+    # CJK — Japanese / Korean preinstalled
+    "yu gothic", "yu mincho", "meiryo", "ms gothic", "ms mincho",
+    "malgun gothic",
+}
+
+_FONT_SUFFIX_TOKENS = {
+    "bold", "italic", "oblique", "light", "semilight", "medium",
+    "semibold", "demibold", "black", "thin", "regular", "book",
+    "condensed", "extended", "roman",
+}
+
+
+def normalize_font_name(name: str) -> str:
+    parts = name.strip().lower().split()
+    while len(parts) > 1 and parts[-1] in _FONT_SUFFIX_TOKENS:
+        parts.pop()
+    return " ".join(parts)
+
+
+def is_preinstalled_safe_font(font_name: str) -> bool:
+    return normalize_font_name(font_name) in PREINSTALLED_SAFE_FONTS
+
 
 def is_cjk_font(font_name: str) -> bool:
     if not font_name:
@@ -363,6 +412,14 @@ def audit_pptx(path: str) -> tuple[int, dict]:
         add("BLOCK", "font", "NOTO_FONT_FOUND", f"Forbidden Noto font reference(s): {', '.join(sorted(noto_refs))}")
     if len(used_fonts) == 1 and not any(is_serif_or_display(f) for f in used_fonts):
         add("WARN", "font", "SINGLE_SANS_ONLY", f"Entire deck uses a single sans-serif font: {next(iter(used_fonts))}")
+    nonportable_fonts = sorted(f for f in used_fonts if not is_preinstalled_safe_font(f))
+    if nonportable_fonts:
+        add("WARN", "font", "FONT_PORTABILITY",
+            f"Font(s) not preinstalled on typical Windows/macOS machines: {', '.join(nonportable_fonts)}. "
+            "On a machine without them, PowerPoint/WPS silently substitutes another font and the layout can break "
+            "(verified on real hardware 2026-11-29: a deck in Playfair Display / Source Sans 3 / IBM Plex Mono "
+            "rendered entirely in a handwriting fallback). Install these fonts on the target machine, or switch "
+            "the deck to preinstalled-safe fonts (Tier A) before delivery.")
 
     # 4. Structural / OOXML / Morph hygiene
     if single_quote_xmls > 0:
